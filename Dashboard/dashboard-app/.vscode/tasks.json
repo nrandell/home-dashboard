@@ -1,0 +1,51 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "runOptions": {
+        "instanceLimit": 1,
+        "runOn": "folderOpen"
+      },
+      "label": "Launch ngrok",
+      "type": "process",
+      "command": "ngrok",
+      "args": ["http", "--region=eu", "--subdomain=nickrandell", "5000"],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "runOptions": {
+        "instanceLimit": 1,
+        "runOn": "folderOpen"
+      },
+      "label": "Launch dotnet",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["run"],
+      "options": { "cwd": ".." },
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "runOptions": {
+        "instanceLimit": 1,
+        "runOn": "folderOpen"
+      },
+      "label": "Launch npm",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "start"],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}
