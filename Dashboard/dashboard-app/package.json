@@ -28,8 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "format-staged": "pretty-quick --staged"
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
@@ -45,7 +44,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format-staged"
+      "pre-commit": "npx lint-staged"
     }
   },
   "eslintConfig": {
