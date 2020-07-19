@@ -35,6 +35,7 @@ namespace Dashboard
             services.AddSingleton<IMqttFactory, MqttFactory>();
             services.AddSingleton<MqttReceiverService>();
             services.AddSingleton<ProcessingService>();
+            services.AddSingleton<HildebrandStateStore>();
 
             services.AddSingleton(_ => Channel.CreateBounded<MqttApplicationMessage>(new BoundedChannelOptions(1000)
             {
@@ -48,12 +49,8 @@ namespace Dashboard
 
             services.AddHostedService(sp => sp.GetRequiredService<ProcessingService>());
 
-
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "dashboard-app/build";
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "dashboard-app/build");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

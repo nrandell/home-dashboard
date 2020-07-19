@@ -1,0 +1,1 @@
+﻿docker build -t nrandell/home-dashboard:latest -f Dashboard/Dockerfile .

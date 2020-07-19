@@ -18,7 +18,6 @@ namespace Dashboard.Services
 {
     public class MqttReceiverService : ReliableMqttClient<MqttConfiguration>
     {
-        public JsonSerializerOptions JsonSerializerOptions { get; }
         public ChannelWriter<MqttApplicationMessage> ChannelWriter { get; }
 
         public MqttReceiverService(ILogger<MqttReceiverService> logger, IMqttFactory mqttFactory, IOptions<MqttConfiguration> configurationOptions, IHostApplicationLifetime hostApplicationLifetime, ChannelWriter<MqttApplicationMessage> channelWriter) :

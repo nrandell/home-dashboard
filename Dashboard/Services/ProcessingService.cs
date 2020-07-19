@@ -17,15 +17,17 @@ namespace Dashboard.Services
     {
         public ILogger Logger { get; }
         public ChannelReader<MqttApplicationMessage> ChannelReader { get; }
-        public IHubContext<DataHub> HubContext { get; }
+        public IHubContext<DataHub, IDataHub> HubContext { get; }
         public MqttReceiverService MqttReceiverService { get; }
+        public HildebrandStateStore Store { get; }
 
-        public ProcessingService(ILogger<ProcessingService> logger, ChannelReader<MqttApplicationMessage> channelReader, IHubContext<DataHub> hubContext, MqttReceiverService mqttReceiverService)
+        public ProcessingService(ILogger<ProcessingService> logger, ChannelReader<MqttApplicationMessage> channelReader, IHubContext<DataHub, IDataHub> hubContext, MqttReceiverService mqttReceiverService, HildebrandStateStore store)
         {
             Logger = logger;
             ChannelReader = channelReader;
             HubContext = hubContext;
             MqttReceiverService = mqttReceiverService;
+            Store = store;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,7 +37,7 @@ namespace Dashboard.Services
             {
                 try
                 {
-                    await HandleMessageAsync(message, stoppingToken);
+                    await HandleMessageAsync(message);
                 }
                 catch (Exception ex)
                 {
@@ -44,19 +46,20 @@ namespace Dashboard.Services
             }
         }
 
-        private Task HandleMessageAsync(MqttApplicationMessage message, CancellationToken stoppingToken)
+        private Task HandleMessageAsync(MqttApplicationMessage message)
         {
             return message.Topic switch
             {
-                "nick/sensor/hildebrand/state" => HandleHildebrandState(message, stoppingToken),
+                "nick/sensor/hildebrand/state" => HandleHildebrandState(message),
                 _ => Task.CompletedTask,
             };
         }
 
-        private Task HandleHildebrandState(MqttApplicationMessage message, CancellationToken stoppingToken)
+        private Task HandleHildebrandState(MqttApplicationMessage message)
         {
+            Store.Store(message);
             var json = message.ConvertPayloadToString();
-            return HubContext.Clients.All.SendAsync("Data", message.Topic, json, stoppingToken);
+            return HubContext.Clients.All.Data(message.Topic, json);
         }
     }
 }

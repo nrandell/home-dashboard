@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <Authors>nick@nickrandell.com</Authors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Language)' == 'C#' ">
+    <Compile Include="../GlobalSuppressions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="3.0.0-rc" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

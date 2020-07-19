@@ -13,14 +13,14 @@ namespace Dashboard.Pages
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
-        private readonly ILogger<ErrorModel> _logger;
+        public ILogger Logger { get; }
 
         public ErrorModel(ILogger<ErrorModel> logger)
         {
-            _logger = logger;
+            Logger = logger;
         }
 
-        public string RequestId { get; set; }
+        public string? RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
