@@ -11,11 +11,8 @@ export const StateHistory: React.FC<Props> = (props) => {
   const { state, className } = props;
   const [stateHistory, setStateHistory] = useState<HildebrandState[]>([]);
 
-  console.log("state", state);
-
   useEffect(() => {
     retrieveHistory().then((newHistory) => {
-      console.log("new history", newHistory);
       setStateHistory(newHistory);
     });
   }, []);
