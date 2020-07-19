@@ -19,11 +19,10 @@ namespace Dashboard.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var message = Store.Latest;
-            if (message != null)
+            var state = Store.Latest;
+            if (state != null)
             {
-                var json = message.ConvertPayloadToString();
-                await Clients.Caller.Data(message.Topic, json);
+                await Clients.Caller.Data(state.Topic, state.Json);
             }
             await base.OnConnectedAsync();
         }

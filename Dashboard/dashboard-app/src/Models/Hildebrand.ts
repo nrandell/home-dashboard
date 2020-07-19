@@ -10,3 +10,8 @@ export interface HildebrandState {
   thisWeekWattHours: number;
   thisMonthWattHours: number;
 }
+
+export interface Data {
+  topic: string;
+  json: any;
+}

@@ -2,9 +2,9 @@
 using System.Collections.Immutable;
 using System.Linq;
 
-using Microsoft.Extensions.Logging;
+using Dashboard.Models;
 
-using MQTTnet;
+using Microsoft.Extensions.Logging;
 
 namespace Dashboard.Services
 {
@@ -13,14 +13,14 @@ namespace Dashboard.Services
         public const int Capacity = 1000;
 
         public ILogger Logger { get; }
-        private ImmutableList<MqttApplicationMessage> _store = ImmutableList<MqttApplicationMessage>.Empty;
+        private ImmutableList<HildebrandState> _store = ImmutableList<HildebrandState>.Empty;
 
         public HildebrandStateStore(ILogger<HildebrandStateStore> logger)
         {
             Logger = logger;
         }
 
-        public void Store(MqttApplicationMessage message)
+        public void Store(HildebrandState message)
         {
             var store = _store;
             if (store.Count == Capacity)
@@ -33,8 +33,8 @@ namespace Dashboard.Services
             }
         }
 
-        public IEnumerable<MqttApplicationMessage> Messages => _store;
+        public IEnumerable<HildebrandState> Messages => _store;
 
-        public MqttApplicationMessage? Latest => _store.Count > 0 ? _store.Last() : default;
+        public HildebrandState? Latest => _store.Count > 0 ? _store.Last() : default;
     }
 }

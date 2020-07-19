@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import * as signalR from "@microsoft/signalr";
 import { RawData } from "./RawData";
-import { HildebrandSource } from "./Services";
-import { HildebrandState } from "./Models";
+import { HildebrandSource, StateHistory } from "./Services";
+import { HildebrandState, Data } from "./Models";
 import { PowerMeter } from "./Components";
 
 interface Props {}
-
-interface Data {
-  topic: string;
-  json: any;
-}
 
 export const DataSource: React.FC<Props> = (props) => {
   const [data, setData] = useState<Data>();
@@ -49,6 +44,7 @@ export const DataSource: React.FC<Props> = (props) => {
           className="grid-area-info info-size"
           json={JSON.stringify(data, undefined, "  ")}
         />
+        <StateHistory className="grid-area-history" state={state} />
         <PowerMeter
           className="grid-area-power flex w-100 justify-center"
           power={state.currentWatts}

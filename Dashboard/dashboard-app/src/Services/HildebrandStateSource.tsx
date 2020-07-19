@@ -1,7 +1,7 @@
 import React from "react";
 import { HildebrandState } from "../Models";
 
-const HildebrandStateContext = React.createContext<HildebrandState | null>(
+export const HildebrandStateContext = React.createContext<HildebrandState | null>(
   null
 );
 

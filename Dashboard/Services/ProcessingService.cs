@@ -4,6 +4,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Dashboard.Hubs;
+using Dashboard.Models;
 
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
@@ -57,9 +58,9 @@ namespace Dashboard.Services
 
         private Task HandleHildebrandState(MqttApplicationMessage message)
         {
-            Store.Store(message);
-            var json = message.ConvertPayloadToString();
-            return HubContext.Clients.All.Data(message.Topic, json);
+            var state = new HildebrandState(message);
+            Store.Store(state);
+            return HubContext.Clients.All.Data(state.Topic, state.Json);
         }
     }
 }
