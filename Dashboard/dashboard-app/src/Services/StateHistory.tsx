@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { HildebrandState } from "../Models";
 import { retrieveHistory } from "./";
 
+const maxLength = 10;
+
 interface Props {
   state: HildebrandState;
   className: string;
@@ -18,14 +20,18 @@ export const StateHistory: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    setStateHistory((old) => [...old, state]);
+    setStateHistory((old) => {
+      const remaining =
+        old.length > maxLength ? old.slice(old.length - maxLength) : old;
+      return [...remaining, state];
+    });
   }, [state]);
 
   const watts = stateHistory.map((s) => s.currentWatts);
 
   return (
     <div className={className}>
-      <pre>{JSON.stringify(watts)}</pre>;
+      <pre>{JSON.stringify(watts)}</pre>
     </div>
   );
 };

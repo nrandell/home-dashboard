@@ -10,7 +10,7 @@ namespace Dashboard.Controllers
 {
     [Route("/history")]
     [ApiController]
-    public class HistoricReadingController
+    public class HistoricReadingController : ControllerBase
     {
         public ILogger Logger { get; }
         public HildebrandStateStore HildebrandStateStore { get; }

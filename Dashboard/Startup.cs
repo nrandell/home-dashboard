@@ -5,7 +5,6 @@ using Dashboard.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,19 +29,21 @@ namespace Dashboard
         {
             services.Configure<MqttConfiguration>(Configuration.GetSection("Mqtt"));
 
-            services.AddControllersWithViews();
+            services.AddControllers();
+            //services.AddControllersWithViews();
             services.AddSignalR();
             services.AddSingleton<IMqttFactory, MqttFactory>();
             services.AddSingleton<MqttReceiverService>();
             services.AddSingleton<ProcessingService>();
             services.AddSingleton<HildebrandStateStore>();
+            services.AddSingleton<OctopusTariffService>();
 
             services.AddSingleton(_ => Channel.CreateBounded<MqttApplicationMessage>(new BoundedChannelOptions(1000)
             {
                 AllowSynchronousContinuations = false,
                 FullMode = BoundedChannelFullMode.DropNewest,
                 SingleReader = true,
-                SingleWriter = true
+                SingleWriter = true,
             }));
             services.AddSingleton(sp => sp.GetRequiredService<Channel<MqttApplicationMessage>>().Reader);
             services.AddSingleton(sp => sp.GetRequiredService<Channel<MqttApplicationMessage>>().Writer);
@@ -76,9 +77,10 @@ namespace Dashboard
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<DataHub>("/data");
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -88,7 +90,7 @@ namespace Dashboard
                 if (env.IsDevelopment())
                 {
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4400");
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    //spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
         }

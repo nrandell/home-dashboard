@@ -13,6 +13,7 @@
       "group": "none",
       "presentation": {
         "reveal": "always",
+        "group": "build",
         "panel": "new"
       }
     },
@@ -29,6 +30,7 @@
       "group": "none",
       "presentation": {
         "reveal": "always",
+        "group": "build",
         "panel": "new"
       }
     },
@@ -44,6 +46,7 @@
       "group": "none",
       "presentation": {
         "reveal": "always",
+        "group": "build",
         "panel": "new"
       }
     }

@@ -1,6 +1,6 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0.0-preview.6 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.0-rc.2 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -16,7 +16,7 @@ COPY ["Dashboard/dashboard-app", "Dashboard/dashboard-app"]
 WORKDIR /src/Dashboard/dashboard-app
 RUN npm run build
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0.100-preview.6 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0.100-rc.2 AS build
 WORKDIR /src
 COPY ["Directory.Build.props", "global.json", "GlobalSuppressions.cs", "./"]
 COPY ["Dashboard/Dashboard.csproj", "Dashboard/"]
